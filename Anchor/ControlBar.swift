@@ -46,20 +46,18 @@ struct ControlBar: View {
         .sensoryFeedback(.selection, trigger: sessionLength)
     }
 
+    /// Deliberately mirrors the carousel's collapseButton (same Button +
+    /// buttonBorderShape(.circle), no explicit style/hover override) so both
+    /// go through the identical native automatic hover/rest rendering.
     private func controlButton(icon: String, label: String, isActive: Bool, action: @escaping () -> Void) -> some View {
         VStack(spacing: 8) {
             Button(action: action) {
                 Image(systemName: icon)
                     .font(.system(size: 19, weight: .medium))
-                    .foregroundStyle(.white)
                     .frame(width: 56, height: 56)
-                    .background(
-                        Circle()
-                            .fill(.white.opacity(0.12))
-                    )
                     .shadow(color: .white.opacity(isActive ? 0.6 : 0), radius: isActive ? 12 : 0)
             }
-            .buttonStyle(.plain)
+            .buttonBorderShape(.circle)
 
             Text(label)
                 .font(.system(size: 12, weight: .medium))
