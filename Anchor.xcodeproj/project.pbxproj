@@ -6,8 +6,79 @@
 	objectVersion = 70;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		909487B93042E2C00078385D /* MatteSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A33042E2C00078385D /* MatteSources.swift */; };
+		909487BA3042E2C00078385D /* SpatialMemoryDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487983042E2C00078385D /* SpatialMemoryDemoApp.swift */; };
+		909487BB3042E2C00078385D /* SquareCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487AE3042E2C00078385D /* SquareCanvas.swift */; };
+		909487BC3042E2C00078385D /* AppleSpatialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094879A3042E2C00078385D /* AppleSpatialScene.swift */; };
+		909487BD3042E2C00078385D /* DepthRefinement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094879E3042E2C00078385D /* DepthRefinement.swift */; };
+		909487BE3042E2C00078385D /* BackgroundFilling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094879C3042E2C00078385D /* BackgroundFilling.swift */; };
+		909487BF3042E2C00078385D /* ReplicateDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487AA3042E2C00078385D /* ReplicateDepth.swift */; };
+		909487C03042E2C00078385D /* MemoryAmbience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A43042E2C00078385D /* MemoryAmbience.swift */; };
+		909487C13042E2C00078385D /* ForegroundSegmentationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A03042E2C00078385D /* ForegroundSegmentationService.swift */; };
+		909487C23042E2C00078385D /* MemoryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A53042E2C00078385D /* MemoryContainer.swift */; };
+		909487C33042E2C00078385D /* InpaintingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A23042E2C00078385D /* InpaintingClient.swift */; };
+		909487C43042E2C00078385D /* Narration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A73042E2C00078385D /* Narration.swift */; };
+		909487C53042E2C00078385D /* ImagingCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A13042E2C00078385D /* ImagingCore.swift */; };
+		909487C63042E2C00078385D /* MemoryPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A63042E2C00078385D /* MemoryPipeline.swift */; };
+		909487C73042E2C00078385D /* SpatialMemoryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487AC3042E2C00078385D /* SpatialMemoryEngine.swift */; };
+		909487C83042E2C00078385D /* SpatialPhotoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487AD3042E2C00078385D /* SpatialPhotoApp.swift */; };
+		909487C93042E2C00078385D /* BackdropTextures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094879B3042E2C00078385D /* BackdropTextures.swift */; };
+		909487CA3042E2C00078385D /* ParallaxGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A83042E2C00078385D /* ParallaxGeometry.swift */; };
+		909487CB3042E2C00078385D /* DepthSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094879F3042E2C00078385D /* DepthSources.swift */; };
+		909487CC3042E2C00078385D /* bake-cutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487B03042E2C00078385D /* bake-cutout.swift */; };
+		909487CD3042E2C00078385D /* DepthMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9094879D3042E2C00078385D /* DepthMesh.swift */; };
+		909487CE3042E2C00078385D /* ReplicateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487A93042E2C00078385D /* ReplicateAPI.swift */; };
+		909487CF3042E2C00078385D /* ReplicateInpainting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909487AB3042E2C00078385D /* ReplicateInpainting.swift */; };
+		909487D03042E2C00078385D /* ImagePresentationComponent.Spatial3DImage.swift.txt in Resources */ = {isa = PBXBuildFile; fileRef = 909487933042E2C00078385D /* ImagePresentationComponent.Spatial3DImage.swift.txt */; };
+		909487D13042E2C00078385D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 909487963042E2C00078385D /* README.md */; };
+		909487D23042E2C00078385D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 909487B33042E2C00078385D /* Info.plist */; };
+		909487D33042E2C00078385D /* project.pbxproj.before-cleanup.bak in Resources */ = {isa = PBXBuildFile; fileRef = 909487943042E2C00078385D /* project.pbxproj.before-cleanup.bak */; };
+		909487D43042E2C00078385D /* project.pbxproj.before-newfiles.bak in Resources */ = {isa = PBXBuildFile; fileRef = 909487953042E2C00078385D /* project.pbxproj.before-newfiles.bak */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		909487D63042E2C10078385D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 909487B53042E2C00078385D /* test demo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 905BCD6330428A6900FFC3B8;
+			remoteInfo = "test demo";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		59801B2516D65DF1A42CA575 /* Anchor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anchor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		909487913042E2C00078385D /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
+		909487933042E2C00078385D /* ImagePresentationComponent.Spatial3DImage.swift.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ImagePresentationComponent.Spatial3DImage.swift.txt; sourceTree = "<group>"; };
+		909487943042E2C00078385D /* project.pbxproj.before-cleanup.bak */ = {isa = PBXFileReference; lastKnownFileType = text; path = "project.pbxproj.before-cleanup.bak"; sourceTree = "<group>"; };
+		909487953042E2C00078385D /* project.pbxproj.before-newfiles.bak */ = {isa = PBXFileReference; lastKnownFileType = text; path = "project.pbxproj.before-newfiles.bak"; sourceTree = "<group>"; };
+		909487963042E2C00078385D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		909487983042E2C00078385D /* SpatialMemoryDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialMemoryDemoApp.swift; sourceTree = "<group>"; };
+		9094879A3042E2C00078385D /* AppleSpatialScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSpatialScene.swift; sourceTree = "<group>"; };
+		9094879B3042E2C00078385D /* BackdropTextures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackdropTextures.swift; sourceTree = "<group>"; };
+		9094879C3042E2C00078385D /* BackgroundFilling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilling.swift; sourceTree = "<group>"; };
+		9094879D3042E2C00078385D /* DepthMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthMesh.swift; sourceTree = "<group>"; };
+		9094879E3042E2C00078385D /* DepthRefinement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthRefinement.swift; sourceTree = "<group>"; };
+		9094879F3042E2C00078385D /* DepthSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthSources.swift; sourceTree = "<group>"; };
+		909487A03042E2C00078385D /* ForegroundSegmentationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundSegmentationService.swift; sourceTree = "<group>"; };
+		909487A13042E2C00078385D /* ImagingCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagingCore.swift; sourceTree = "<group>"; };
+		909487A23042E2C00078385D /* InpaintingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InpaintingClient.swift; sourceTree = "<group>"; };
+		909487A33042E2C00078385D /* MatteSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatteSources.swift; sourceTree = "<group>"; };
+		909487A43042E2C00078385D /* MemoryAmbience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryAmbience.swift; sourceTree = "<group>"; };
+		909487A53042E2C00078385D /* MemoryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryContainer.swift; sourceTree = "<group>"; };
+		909487A63042E2C00078385D /* MemoryPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryPipeline.swift; sourceTree = "<group>"; };
+		909487A73042E2C00078385D /* Narration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Narration.swift; sourceTree = "<group>"; };
+		909487A83042E2C00078385D /* ParallaxGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxGeometry.swift; sourceTree = "<group>"; };
+		909487A93042E2C00078385D /* ReplicateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplicateAPI.swift; sourceTree = "<group>"; };
+		909487AA3042E2C00078385D /* ReplicateDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplicateDepth.swift; sourceTree = "<group>"; };
+		909487AB3042E2C00078385D /* ReplicateInpainting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplicateInpainting.swift; sourceTree = "<group>"; };
+		909487AC3042E2C00078385D /* SpatialMemoryEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialMemoryEngine.swift; sourceTree = "<group>"; };
+		909487AD3042E2C00078385D /* SpatialPhotoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialPhotoApp.swift; sourceTree = "<group>"; };
+		909487AE3042E2C00078385D /* SquareCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareCanvas.swift; sourceTree = "<group>"; };
+		909487B03042E2C00078385D /* bake-cutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "bake-cutout.swift"; sourceTree = "<group>"; };
+		909487B33042E2C00078385D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		909487B53042E2C00078385D /* test demo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "test demo.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -30,7 +101,109 @@
 			children = (
 				DBFB313C6EE72D6BC477A4E5 /* Anchor */,
 				D6B6221396771647DE2C1FC5 /* Products */,
+				909487B63042E2C00078385D /* test demo */,
 			);
+			sourceTree = "<group>";
+		};
+		909487923042E2C00078385D /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				909487913042E2C00078385D /* RealityKitContent */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		909487973042E2C00078385D /* _unused */ = {
+			isa = PBXGroup;
+			children = (
+				909487933042E2C00078385D /* ImagePresentationComponent.Spatial3DImage.swift.txt */,
+				909487943042E2C00078385D /* project.pbxproj.before-cleanup.bak */,
+				909487953042E2C00078385D /* project.pbxproj.before-newfiles.bak */,
+				909487963042E2C00078385D /* README.md */,
+			);
+			path = _unused;
+			sourceTree = "<group>";
+		};
+		909487993042E2C00078385D /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				909487983042E2C00078385D /* SpatialMemoryDemoApp.swift */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		909487AF3042E2C00078385D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				9094879A3042E2C00078385D /* AppleSpatialScene.swift */,
+				9094879B3042E2C00078385D /* BackdropTextures.swift */,
+				9094879C3042E2C00078385D /* BackgroundFilling.swift */,
+				9094879D3042E2C00078385D /* DepthMesh.swift */,
+				9094879E3042E2C00078385D /* DepthRefinement.swift */,
+				9094879F3042E2C00078385D /* DepthSources.swift */,
+				909487A03042E2C00078385D /* ForegroundSegmentationService.swift */,
+				909487A13042E2C00078385D /* ImagingCore.swift */,
+				909487A23042E2C00078385D /* InpaintingClient.swift */,
+				909487A33042E2C00078385D /* MatteSources.swift */,
+				909487A43042E2C00078385D /* MemoryAmbience.swift */,
+				909487A53042E2C00078385D /* MemoryContainer.swift */,
+				909487A63042E2C00078385D /* MemoryPipeline.swift */,
+				909487A73042E2C00078385D /* Narration.swift */,
+				909487A83042E2C00078385D /* ParallaxGeometry.swift */,
+				909487A93042E2C00078385D /* ReplicateAPI.swift */,
+				909487AA3042E2C00078385D /* ReplicateDepth.swift */,
+				909487AB3042E2C00078385D /* ReplicateInpainting.swift */,
+				909487AC3042E2C00078385D /* SpatialMemoryEngine.swift */,
+				909487AD3042E2C00078385D /* SpatialPhotoApp.swift */,
+				909487AE3042E2C00078385D /* SquareCanvas.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		909487B13042E2C00078385D /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				909487B03042E2C00078385D /* bake-cutout.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		909487B23042E2C00078385D /* SpatialMemory */ = {
+			isa = PBXGroup;
+			children = (
+				909487973042E2C00078385D /* _unused */,
+				909487993042E2C00078385D /* Demo */,
+				909487AF3042E2C00078385D /* Sources */,
+				909487B13042E2C00078385D /* Tools */,
+			);
+			path = SpatialMemory;
+			sourceTree = "<group>";
+		};
+		909487B43042E2C00078385D /* test demo */ = {
+			isa = PBXGroup;
+			children = (
+				909487B33042E2C00078385D /* Info.plist */,
+			);
+			path = "test demo";
+			sourceTree = "<group>";
+		};
+		909487B63042E2C00078385D /* test demo */ = {
+			isa = PBXGroup;
+			children = (
+				909487923042E2C00078385D /* Packages */,
+				909487B23042E2C00078385D /* SpatialMemory */,
+				909487B43042E2C00078385D /* test demo */,
+				909487B53042E2C00078385D /* test demo.xcodeproj */,
+			);
+			path = "test demo";
+			sourceTree = "<group>";
+		};
+		909487B73042E2C00078385D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				909487D73042E2C10078385D /* test demo.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D6B6221396771647DE2C1FC5 /* Products */ = {
@@ -90,6 +263,12 @@
 			mainGroup = 19278D0A1BEE0403F753CBC9;
 			productRefGroup = D6B6221396771647DE2C1FC5 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 909487B73042E2C00078385D /* Products */;
+					ProjectRef = 909487B53042E2C00078385D /* test demo.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				A9FED70139ED8BDEE7121222 /* Anchor */,
@@ -97,11 +276,26 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		909487D73042E2C10078385D /* test demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "test demo.app";
+			remoteRef = 909487D63042E2C10078385D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		EB68F1C369B8847EC20F4DC6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				909487D03042E2C00078385D /* ImagePresentationComponent.Spatial3DImage.swift.txt in Resources */,
+				909487D13042E2C00078385D /* README.md in Resources */,
+				909487D23042E2C00078385D /* Info.plist in Resources */,
+				909487D33042E2C00078385D /* project.pbxproj.before-cleanup.bak in Resources */,
+				909487D43042E2C00078385D /* project.pbxproj.before-newfiles.bak in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +306,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				909487B93042E2C00078385D /* MatteSources.swift in Sources */,
+				909487BA3042E2C00078385D /* SpatialMemoryDemoApp.swift in Sources */,
+				909487BB3042E2C00078385D /* SquareCanvas.swift in Sources */,
+				909487BC3042E2C00078385D /* AppleSpatialScene.swift in Sources */,
+				909487BD3042E2C00078385D /* DepthRefinement.swift in Sources */,
+				909487BE3042E2C00078385D /* BackgroundFilling.swift in Sources */,
+				909487BF3042E2C00078385D /* ReplicateDepth.swift in Sources */,
+				909487C03042E2C00078385D /* MemoryAmbience.swift in Sources */,
+				909487C13042E2C00078385D /* ForegroundSegmentationService.swift in Sources */,
+				909487C23042E2C00078385D /* MemoryContainer.swift in Sources */,
+				909487C33042E2C00078385D /* InpaintingClient.swift in Sources */,
+				909487C43042E2C00078385D /* Narration.swift in Sources */,
+				909487C53042E2C00078385D /* ImagingCore.swift in Sources */,
+				909487C63042E2C00078385D /* MemoryPipeline.swift in Sources */,
+				909487C73042E2C00078385D /* SpatialMemoryEngine.swift in Sources */,
+				909487C83042E2C00078385D /* SpatialPhotoApp.swift in Sources */,
+				909487C93042E2C00078385D /* BackdropTextures.swift in Sources */,
+				909487CA3042E2C00078385D /* ParallaxGeometry.swift in Sources */,
+				909487CB3042E2C00078385D /* DepthSources.swift in Sources */,
+				909487CC3042E2C00078385D /* bake-cutout.swift in Sources */,
+				909487CD3042E2C00078385D /* DepthMesh.swift in Sources */,
+				909487CE3042E2C00078385D /* ReplicateAPI.swift in Sources */,
+				909487CF3042E2C00078385D /* ReplicateInpainting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

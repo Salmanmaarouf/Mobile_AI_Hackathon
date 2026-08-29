@@ -1,0 +1,74 @@
+import SwiftUI
+import RealityKit
+import ImageIO
+
+struct ImmersiveMemoryView: View {
+    // The raw JPEG/HEIC data of the 2D photo
+    let memoryData: Data
+    
+    // Optional voice memo URL
+    let voiceMemoURL: URL?
+    
+    @State private var memoryEntity = Entity()
+
+    var body: some View {
+        RealityView { content in
+            // Center the memory floating in front of the user
+            memoryEntity.position = [0, 1.5, -2.0]
+            content.add(memoryEntity)
+        }
+        .task {
+            await generateSpatialMemory()
+            await attachSpatialAudio()
+        }
+    }
+    
+    /// Runs Apple's on-device AI to convert the 2D photo to a 3D spatial scene
+    private func generateSpatialMemory() async {
+        do {
+            // 1. Create an image source from the 2D photo data
+            guard let imageSource = CGImageSourceCreateWithData(memoryData as CFData, nil) else {
+                print("Invalid image data")
+                return
+            }
+            
+            // 2. Initialize Apple's native Spatial3DImage converter
+            let spatialImage = try await ImagePresentationComponent.Spatial3DImage(imageSource: imageSource)
+            
+            // 3. Command the Apple Neural Engine to generate the 3D depth and inpaint the background
+            try await spatialImage.generate()
+            
+            // 4. Wrap the generated 3D image in a presentation component
+            var imageComponent = try ImagePresentationComponent(spatial3DImage: spatialImage)
+            
+            // 5. Force the component into immersive 3D mode
+            imageComponent.desiredViewingMode = .spatial3DImmersive
+            
+            // 6. Apply it to our RealityKit entity
+            memoryEntity.components.set(imageComponent)
+            
+        } catch {
+            print("Failed to generate spatial memory: \(error)")
+        }
+    }
+    
+    /// Attaches the voice memo so it sounds like it's coming from the memory itself
+    private func attachSpatialAudio() async {
+        guard let voiceMemoURL = voiceMemoURL else { return }
+        
+        do {
+            let audioResource = try await AudioFileResource(contentsOf: voiceMemoURL)
+            
+            // Create a spatial audio component so the sound stays physically anchored to the photo
+            var spatialAudio = SpatialAudioComponent(gain: 0.0)
+            spatialAudio.distanceAttenuation = .rolloff(factor: 2) // Sound gets quieter as they step away
+            
+            memoryEntity.components.set(spatialAudio)
+            
+            let audioController = memoryEntity.prepareAudio(audioResource)
+            audioController.play()
+        } catch {
+            print("Failed to load audio: \(error)")
+        }
+    }
+}
