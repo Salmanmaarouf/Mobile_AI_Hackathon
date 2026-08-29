@@ -45,7 +45,7 @@ struct HomeOverlay: View {
 
 #Preview {
     ZStack {
-        SkyWaterBackground()
+        Color.black
         HomeOverlay(
             memories: Memory.sample,
             selectedMemory: .constant(Memory.sample[0]),
