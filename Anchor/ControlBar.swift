@@ -60,8 +60,6 @@ struct ControlBar: View {
                     .shadow(color: .white.opacity(isActive ? 0.6 : 0), radius: isActive ? 12 : 0)
             }
             .buttonStyle(.plain)
-            .contentShape(Circle())
-            .hoverEffect(.highlight)
 
             Text(label)
                 .font(.system(size: 12, weight: .medium))
