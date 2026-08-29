@@ -29,14 +29,15 @@ struct HomeOverlay: View {
                     selectedMemory: $selectedMemory,
                     isExpanded: $isLibraryExpanded
                 )
-                // Shifted in from the edge by roughly one card-width, toward center.
+                // Same indent as SelectedMemoryCard's trailing padding below,
+                // so both panels sit equidistant from screen center.
                 .padding(.leading, 214)
                 .padding(.top, 40)
 
                 Spacer(minLength: 0)
 
                 SelectedMemoryCard(memory: selectedMemory)
-                    .padding(.trailing, 48)
+                    .padding(.trailing, 214)
                     .padding(.top, 40)
             }
         }

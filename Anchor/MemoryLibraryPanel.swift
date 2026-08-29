@@ -10,8 +10,8 @@ struct MemoryLibraryPanel: View {
     @State private var scrollPosition: Memory.ID?
 
     private let listHeight: CGFloat = 360
-    private let rowWidth: CGFloat = 166
-    private let rowHeight: CGFloat = 134
+    private let rowWidth: CGFloat = 216
+    private let rowHeight: CGFloat = 174
     private let rowOverlap: CGFloat = -10
 
     /// Width of the dot rail + its spacing to the cards — used to keep the
@@ -71,18 +71,14 @@ struct MemoryLibraryPanel: View {
                 .padding(.leading, 14)
                 .padding(.trailing, 14)
 
-                collapseButton(icon: "chevron.up") {
-                    isExpanded = false
-                }
-                .padding(.bottom, 16)
+                collapseButton
+                    .padding(.bottom, 16)
             } else {
-                collapseButton(icon: "chevron.down") {
-                    isExpanded = true
-                }
-                .padding(.vertical, 20)
+                collapseButton
+                    .padding(.vertical, 20)
             }
         }
-        .frame(width: 216)
+        .frame(width: 266)
         .sensoryFeedback(.impact(flexibility: .soft), trigger: isExpanded)
         .onAppear {
             scrollPosition = selectedMemory.id
@@ -97,13 +93,21 @@ struct MemoryLibraryPanel: View {
         }
     }
 
+    /// A single persistent chevron that rotates 180° between states —
+    /// pointing up when expanded, down when collapsed — rather than
+    /// swapping between two separate SF Symbol glyphs.
     /// Centered over the card column, matching the title above and the
     /// cards below — not the whole panel (which also includes the dot rail).
-    private func collapseButton(icon: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: icon)
+    private var collapseButton: some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                isExpanded.toggle()
+            }
+        } label: {
+            Image(systemName: "chevron.up")
                 .font(.system(size: 15, weight: .semibold))
                 .frame(width: 40, height: 40)
+                .rotationEffect(.degrees(isExpanded ? 0 : 180))
         }
         .buttonBorderShape(.circle)
         .frame(maxWidth: .infinity, alignment: .center)
