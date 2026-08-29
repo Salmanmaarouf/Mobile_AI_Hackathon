@@ -51,6 +51,9 @@ struct HomeView: View {
             }
         }
         .frame(minWidth: 900, minHeight: 480)
+        .onAppear {
+            AudioManager.shared.playAmbient(volume: 0.85)
+        }
     }
 
     private var backgroundScene: some View {
