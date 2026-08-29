@@ -32,17 +32,16 @@ struct ControlBar: View {
                         Image(systemName: "chevron.down")
                     }
                     .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(.white)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 4)
                 }
-                .buttonBorderShape(.capsule)
+                .buttonStyle(.plain)
                 .menuStyle(.button)
             }
 
             controlButton(icon: "gearshape", label: "Settings", isActive: false) {}
         }
-        .padding(20)
-        .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 32))
         .sensoryFeedback(.selection, trigger: isVoiceGuideOn)
         .sensoryFeedback(.selection, trigger: sessionLength)
     }
@@ -52,10 +51,11 @@ struct ControlBar: View {
             Button(action: action) {
                 Image(systemName: icon)
                     .font(.system(size: 19, weight: .medium))
+                    .foregroundStyle(.white)
                     .frame(width: 56, height: 56)
+                    .shadow(color: .white.opacity(isActive ? 0.6 : 0), radius: isActive ? 12 : 0)
             }
-            .buttonBorderShape(.circle)
-            .tint(isActive ? .white.opacity(0.9) : nil)
+            .buttonStyle(.plain)
 
             Text(label)
                 .font(.system(size: 12, weight: .medium))
