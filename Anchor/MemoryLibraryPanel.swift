@@ -10,7 +10,13 @@ struct MemoryLibraryPanel: View {
     @State private var scrollPosition: Memory.ID?
 
     private let listHeight: CGFloat = 360
-    private let rowHeight: CGFloat = 84
+    private let rowWidth: CGFloat = 166
+    private let rowHeight: CGFloat = 134
+    private let rowOverlap: CGFloat = -10
+
+    /// Width of the dot rail + its spacing to the cards — used to keep the
+    /// title centered over the card column itself, not the whole panel.
+    private let leadingRailWidth: CGFloat = 22
 
     var body: some View {
         VStack(spacing: 14) {
@@ -18,15 +24,18 @@ struct MemoryLibraryPanel: View {
                 .font(.system(size: 15, weight: .semibold))
                 .foregroundStyle(.white)
                 .shadow(color: .black.opacity(0.35), radius: 6, y: 1)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.leading, 14 + leadingRailWidth)
+                .padding(.trailing, 14)
 
             if isExpanded {
                 HStack(alignment: .center, spacing: 10) {
                     CarouselDots(memories: memories, focusedID: scrollPosition)
 
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: 14) {
+                        VStack(spacing: rowOverlap) {
                             ForEach(memories) { memory in
-                                MemoryRow(memory: memory, isFocused: memory.id == scrollPosition)
+                                MemoryRow(memory: memory, height: rowHeight, isFocused: memory.id == scrollPosition)
                                     .scrollTransition(axis: .vertical) { content, phase in
                                         content
                                             .scaleEffect(1 - min(abs(phase.value), 1) * 0.22)
@@ -41,11 +50,23 @@ struct MemoryLibraryPanel: View {
                         }
                         .scrollTargetLayout()
                     }
-                    .frame(width: 128, height: listHeight)
+                    .frame(width: rowWidth, height: listHeight)
                     .contentMargins(.vertical, (listHeight - rowHeight) / 2, for: .scrollContent)
                     .scrollTargetBehavior(.viewAligned(limitBehavior: .always, anchor: .center))
                     .scrollPosition(id: $scrollPosition, anchor: .center)
                     .sensoryFeedback(.selection, trigger: scrollPosition)
+                    .mask(
+                        LinearGradient(
+                            stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: .black, location: 0.16),
+                                .init(color: .black, location: 0.84),
+                                .init(color: .clear, location: 1)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
                 }
                 .padding(.leading, 14)
                 .padding(.trailing, 14)
@@ -55,7 +76,7 @@ struct MemoryLibraryPanel: View {
                         isExpanded = false
                     }
                 } label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "chevron.up")
                         .font(.system(size: 15, weight: .semibold))
                         .frame(width: 40, height: 40)
                 }
@@ -67,7 +88,7 @@ struct MemoryLibraryPanel: View {
                         isExpanded = true
                     }
                 } label: {
-                    Image(systemName: "chevron.up")
+                    Image(systemName: "chevron.down")
                         .font(.system(size: 15, weight: .semibold))
                         .frame(width: 40, height: 40)
                 }
@@ -75,7 +96,7 @@ struct MemoryLibraryPanel: View {
                 .padding(.vertical, 20)
             }
         }
-        .frame(width: 178)
+        .frame(width: 216)
         .sensoryFeedback(.impact(flexibility: .soft), trigger: isExpanded)
         .onAppear {
             scrollPosition = selectedMemory.id
@@ -135,6 +156,7 @@ private struct CarouselDots: View {
 
 private struct MemoryRow: View {
     let memory: Memory
+    let height: CGFloat
     let isFocused: Bool
 
     var body: some View {
@@ -161,12 +183,13 @@ private struct MemoryRow: View {
             }
             .padding(8)
         }
-        .frame(height: 84)
+        .frame(height: height)
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .overlay(
             RoundedRectangle(cornerRadius: 14)
-                .strokeBorder(.white.opacity(isFocused ? 0.9 : 0), lineWidth: 2)
+                .strokeBorder(.white.opacity(isFocused ? 0.4 : 0), lineWidth: 1.5)
         )
+        .shadow(color: .white.opacity(isFocused ? 0.6 : 0), radius: isFocused ? 14 : 0)
     }
 }
 

@@ -29,7 +29,8 @@ struct HomeOverlay: View {
                     selectedMemory: $selectedMemory,
                     isExpanded: $isLibraryExpanded
                 )
-                .padding(.leading, 48)
+                // Shifted in from the edge by roughly one card-width, toward center.
+                .padding(.leading, 214)
                 .padding(.top, 40)
 
                 Spacer(minLength: 0)
