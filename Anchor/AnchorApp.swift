@@ -7,6 +7,6 @@ struct AnchorApp: App {
             HomeView()
         }
         .windowStyle(.plain)
-        .defaultSize(width: 1400, height: 700)
+        .defaultSize(width: 1760, height: 700)
     }
 }

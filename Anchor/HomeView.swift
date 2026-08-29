@@ -6,48 +6,45 @@ struct HomeView: View {
     @State private var sessionLength: Int = 15
     @State private var isLibraryExpanded = true
 
+    @State private var isOverlayVisible = true
+    @State private var hideTask: Task<Void, Never>?
+
+    private let idleTimeout: Duration = .seconds(20)
+
     var body: some View {
         ZStack {
-            backgroundScene
+            SkyWaterBackground()
+                .contentShape(Rectangle())
+                .onTapGesture { wakeOverlay() }
 
-            VStack(spacing: 0) {
-                GreetingHeader(name: "Paul")
-                    .padding(.top, 56)
-
-                Spacer(minLength: 0)
-
-                ControlBar(sessionLength: $sessionLength)
-                    .padding(.bottom, 48)
-            }
-
-            HStack(alignment: .top, spacing: 0) {
-                MemoryLibraryPanel(
-                    memories: memories,
-                    selectedMemory: $selectedMemory,
-                    isExpanded: $isLibraryExpanded
-                )
-                .padding(.leading, 48)
-                .padding(.top, 40)
-
-                Spacer(minLength: 0)
-
-                SelectedMemoryCard(memory: selectedMemory)
-                    .padding(.trailing, 48)
-                    .padding(.top, 40)
-            }
+            HomeOverlay(
+                memories: memories,
+                selectedMemory: $selectedMemory,
+                sessionLength: $sessionLength,
+                isLibraryExpanded: $isLibraryExpanded
+            )
+            .offset(z: 28) // Real spatial depth: floats in front of the background plane.
+            .opacity(isOverlayVisible ? 1 : 0)
+            .animation(.easeInOut(duration: 0.6), value: isOverlayVisible)
+            .allowsHitTesting(isOverlayVisible)
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0).onChanged { _ in wakeOverlay() }
+            )
         }
         .frame(minWidth: 900, minHeight: 480)
+        .clipShape(RoundedRectangle(cornerRadius: 48, style: .continuous))
+        .task { wakeOverlay() }
+        .onDisappear { hideTask?.cancel() }
     }
 
-    private var backgroundScene: some View {
-        GeometryReader { proxy in
-            Image("OrbLake")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: proxy.size.width, height: proxy.size.height)
-                .clipped()
+    private func wakeOverlay() {
+        isOverlayVisible = true
+        hideTask?.cancel()
+        hideTask = Task {
+            try? await Task.sleep(for: idleTimeout)
+            guard !Task.isCancelled else { return }
+            isOverlayVisible = false
         }
-        .ignoresSafeArea()
     }
 }
 

@@ -43,6 +43,8 @@ struct ControlBar: View {
         }
         .padding(20)
         .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 32))
+        .sensoryFeedback(.selection, trigger: isVoiceGuideOn)
+        .sensoryFeedback(.selection, trigger: sessionLength)
     }
 
     private func controlButton(icon: String, label: String, isActive: Bool, action: @escaping () -> Void) -> some View {
