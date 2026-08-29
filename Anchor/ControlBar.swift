@@ -53,9 +53,15 @@ struct ControlBar: View {
                     .font(.system(size: 19, weight: .medium))
                     .foregroundStyle(.white)
                     .frame(width: 56, height: 56)
+                    .background(
+                        Circle()
+                            .strokeBorder(.white.opacity(0.35), lineWidth: 1.5)
+                    )
                     .shadow(color: .white.opacity(isActive ? 0.6 : 0), radius: isActive ? 12 : 0)
             }
             .buttonStyle(.plain)
+            .contentShape(Circle())
+            .hoverEffect(.highlight)
 
             Text(label)
                 .font(.system(size: 12, weight: .medium))

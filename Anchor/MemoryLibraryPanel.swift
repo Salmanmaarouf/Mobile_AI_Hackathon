@@ -187,9 +187,8 @@ private struct MemoryRow: View {
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .overlay(
             RoundedRectangle(cornerRadius: 14)
-                .strokeBorder(.white.opacity(isFocused ? 0.4 : 0), lineWidth: 1.5)
+                .strokeBorder(.white.opacity(isFocused ? 0.55 : 0), lineWidth: 2)
         )
-        .shadow(color: .white.opacity(isFocused ? 0.6 : 0), radius: isFocused ? 14 : 0)
     }
 }
 
