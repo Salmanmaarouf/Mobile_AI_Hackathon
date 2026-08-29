@@ -71,28 +71,14 @@ struct MemoryLibraryPanel: View {
                 .padding(.leading, 14)
                 .padding(.trailing, 14)
 
-                Button {
-                    withAnimation(.easeInOut(duration: 0.25)) {
-                        isExpanded = false
-                    }
-                } label: {
-                    Image(systemName: "chevron.up")
-                        .font(.system(size: 15, weight: .semibold))
-                        .frame(width: 40, height: 40)
+                collapseButton(icon: "chevron.up") {
+                    isExpanded = false
                 }
-                .buttonBorderShape(.circle)
                 .padding(.bottom, 16)
             } else {
-                Button {
-                    withAnimation(.easeInOut(duration: 0.25)) {
-                        isExpanded = true
-                    }
-                } label: {
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 15, weight: .semibold))
-                        .frame(width: 40, height: 40)
+                collapseButton(icon: "chevron.down") {
+                    isExpanded = true
                 }
-                .buttonBorderShape(.circle)
                 .padding(.vertical, 20)
             }
         }
@@ -109,6 +95,20 @@ struct MemoryLibraryPanel: View {
             guard scrollPosition != newValue.id else { return }
             scrollPosition = newValue.id
         }
+    }
+
+    /// Centered over the card column, matching the title above and the
+    /// cards below — not the whole panel (which also includes the dot rail).
+    private func collapseButton(icon: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 15, weight: .semibold))
+                .frame(width: 40, height: 40)
+        }
+        .buttonBorderShape(.circle)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.leading, 14 + leadingRailWidth)
+        .padding(.trailing, 14)
     }
 }
 

@@ -55,7 +55,7 @@ struct ControlBar: View {
                     .frame(width: 56, height: 56)
                     .background(
                         Circle()
-                            .strokeBorder(.white.opacity(0.35), lineWidth: 1.5)
+                            .fill(.white.opacity(0.12))
                     )
                     .shadow(color: .white.opacity(isActive ? 0.6 : 0), radius: isActive ? 12 : 0)
             }
