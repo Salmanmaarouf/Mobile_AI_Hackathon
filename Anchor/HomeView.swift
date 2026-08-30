@@ -12,10 +12,19 @@ struct HomeView: View {
     @State private var isOverlayVisible = true
     @State private var hideTask: Task<Void, Never>?
 
-    private let idleTimeout: Duration = .seconds(20)
+    private let idleTimeout: Duration = .seconds(60)
+
+    /// Orb size as a fraction of window height, so it scales with everything
+    /// else (background, panels) when the user resizes the app window,
+    /// instead of staying visually fixed while its surroundings scale.
+    private let orbSizeRatio: CGFloat = 260.0 / 950.0
 
     var body: some View {
         GeometryReader { proxy in
+            let orbSize = proxy.size.height * orbSizeRatio
+            let orbScale: CGFloat = isPulsing ? 1.02 : 0.99
+            let orbOffsetY = orbSize * (isPulsing ? -0.119 : -0.069)
+
             ZStack {
                 backgroundScene(size: proxy.size)
                     .contentShape(Rectangle())
@@ -24,14 +33,32 @@ struct HomeView: View {
                 // MARK: - 3D Center Orb
                 // Lives in the background layer (not HomeOverlay) so it never
                 // fades on idle — it's the scene's content, not a control.
+                // Sized off proxy.size so it scales with window resizing,
+                // the same way the background and panels already do.
                 GlowingOrb3DView()
-                    .frame(width: 260, height: 260)
-                    .scaleEffect(isPulsing ? 1.05 : 0.96)
-                    .offset(y: isPulsing ? -31 : -18)
+                    .frame(width: orbSize, height: orbSize)
+                    .scaleEffect(orbScale)
+                    .offset(y: orbOffsetY)
                     .animation(.easeInOut(duration: 4.0).repeatForever(autoreverses: true), value: isPulsing)
                     .onAppear {
                         isPulsing = true
                     }
+                    .allowsHitTesting(false)
+
+                // MARK: - Selected-memory preview
+                // The orb is a literal 3D sphere (~0.107m radius) that
+                // physically bulges toward the viewer past the window's flat
+                // plane — a 2D SwiftUI view sitting at that plane only wins
+                // where the sphere's surface curves away (the rim), never at
+                // its closest point (the center). A large forward z-offset
+                // (clearing ~0.107m, not a token few points) is what's
+                // actually needed to sit the preview in front of the whole
+                // sphere, not just a paint-order or sizing change.
+                OrbMemoryPreview(memory: selectedMemory, size: orbSize * 0.92)
+                    .scaleEffect(orbScale)
+                    .offset(y: orbOffsetY)
+                    .offset(z: 180)
+                    .animation(.easeInOut(duration: 4.0).repeatForever(autoreverses: true), value: isPulsing)
                     .allowsHitTesting(false)
 
                 HomeOverlay(
@@ -75,28 +102,14 @@ struct HomeView: View {
     }
 
     private func backgroundScene(size: CGSize) -> some View {
-        TimelineView(.animation) { timeline in
-            // Wrapped to a small range before hitting the shader — the raw
-            // timeIntervalSinceReferenceDate is huge (~8×10⁸s), and passing
-            // that into sin() at 32-bit float precision collapses the
-            // fractional/phase part entirely, effectively freezing the wave.
-            let time = Float(timeline.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 1000))
-            Image("background_scaled")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: size.width, height: size.height)
-                .distortionEffect(
-                    ShaderLibrary.waterRipple(
-                        .float2(size),
-                        .float(time),
-                        .float(6.0),
-                        .float(0.55)
-                    ),
-                    maxSampleOffset: CGSize(width: 0, height: 10)
-                )
-                .clipped()
-                .ignoresSafeArea()
-        }
+        // Water ripple (WaterRipple.metal, distortionEffect) cancelled for
+        // now — didn't read right. Shader stays in the project, just unused.
+        Image("background_scaled")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: size.width, height: size.height)
+            .clipped()
+            .ignoresSafeArea()
     }
 }
 
@@ -106,26 +119,27 @@ struct GlowingOrb3DView: View {
 
     var body: some View {
         ZStack {
+            // A faint ambient presence rather than a dominant halo — the orb
+            // should read as solid (moon-like), not a glowing sun.
             RadialGradient(
                 gradient: Gradient(colors: [
-                    Color(red: 1.0, green: 0.6, blue: 0.3).opacity(0.45),
-                    Color(red: 0.6, green: 0.4, blue: 0.9).opacity(0.2),
+                    Color(red: 1.0, green: 0.6, blue: 0.3).opacity(0.14),
+                    Color(red: 0.6, green: 0.4, blue: 0.9).opacity(0.06),
                     Color.clear
                 ]),
                 center: .center,
                 startRadius: 20,
-                endRadius: 180
+                endRadius: 125
             )
-            .blur(radius: 20)
+            .blur(radius: 10)
 
             RealityView { content in
                 let rootEntity = Entity()
 
-                // Core Layer — a smooth diagonal gradient (orange → pink → violet)
-                // rather than a flat tint, so the sphere reads as a soft gradient
-                // globe instead of a solid-colored ball. UnlitMaterial shows the
-                // baked texture exactly as authored, unaffected by scene lighting
-                // (which was washing the gradient toward a uniform pink under PBR).
+                // Core Layer — solid and opaque (UnlitMaterial: shows the
+                // baked texture exactly as authored, unaffected by scene
+                // lighting). A vivid, high-contrast gradient is the whole
+                // visual now, so it needs to pop rather than wash out.
                 let coreMesh = MeshResource.generateSphere(radius: 0.10)
                 var coreMaterial = UnlitMaterial()
                 if let gradientTexture = Self.makeGradientOrbTexture() {
@@ -136,26 +150,17 @@ struct GlowingOrb3DView: View {
                 let coreEntity = ModelEntity(mesh: coreMesh, materials: [coreMaterial])
                 rootEntity.addChild(coreEntity)
 
-                // Mid Atmosphere Layer — a soft, low-intensity halo so it no
-                // longer overpowers the core's gradient underneath.
-                let midMesh = MeshResource.generateSphere(radius: 0.118)
-                var midMaterial = PhysicallyBasedMaterial()
-                midMaterial.baseColor = .init(tint: UIColor(red: 0.95, green: 0.42, blue: 0.6, alpha: 0.35))
-                midMaterial.emissiveColor = .init(color: UIColor(red: 1.0, green: 0.4, blue: 0.3, alpha: 1.0))
-                midMaterial.emissiveIntensity = 0.9
-                midMaterial.roughness = 0.55 // softened from 0.1 — was causing a sharp glass-like glare
-                midMaterial.blending = .transparent(opacity: 0.22)
-                let midEntity = ModelEntity(mesh: midMesh, materials: [midMaterial])
-                rootEntity.addChild(midEntity)
-
-                // Outer Ethereal Rim Layer
-                let rimMesh = MeshResource.generateSphere(radius: 0.132)
+                // Thin outer rim — a subtle edge highlight, not a thick
+                // glowing shell. Single layer now (the old "mid atmosphere"
+                // shell was removed — it was most of what made this read as
+                // a glowing sun instead of a solid moon).
+                let rimMesh = MeshResource.generateSphere(radius: 0.107)
                 var rimMaterial = PhysicallyBasedMaterial()
-                rimMaterial.baseColor = .init(tint: UIColor(red: 0.45, green: 0.8, blue: 1.0, alpha: 0.2))
-                rimMaterial.emissiveColor = .init(color: UIColor(red: 0.55, green: 0.7, blue: 1.0, alpha: 0.7))
-                rimMaterial.emissiveIntensity = 3.2
-                rimMaterial.roughness = 0.4 // softened from 0.0 (mirror-like) for a diffuse glow
-                rimMaterial.blending = .transparent(opacity: 0.3)
+                rimMaterial.baseColor = .init(tint: UIColor(white: 1.0, alpha: 0.12))
+                rimMaterial.emissiveColor = .init(color: UIColor(red: 0.75, green: 0.72, blue: 1.0, alpha: 0.5))
+                rimMaterial.emissiveIntensity = 1.3
+                rimMaterial.roughness = 0.5
+                rimMaterial.blending = .transparent(opacity: 0.16)
                 let rimEntity = ModelEntity(mesh: rimMesh, materials: [rimMaterial])
                 rootEntity.addChild(rimEntity)
 
@@ -165,15 +170,15 @@ struct GlowingOrb3DView: View {
                 particles.timing = .repeating(warmUp: 1.0, emit: .init(duration: 1.0))
                 particles.emitterShape = .sphere
                 particles.birthLocation = .volume
-                particles.emitterShapeSize = SIMD3<Float>(repeating: 0.28)
-                particles.mainEmitter.birthRate = 24
-                particles.mainEmitter.size = 0.0035
+                particles.emitterShapeSize = SIMD3<Float>(repeating: 0.26)
+                particles.mainEmitter.birthRate = 18
+                particles.mainEmitter.size = 0.003
                 particles.mainEmitter.lifeSpan = 3.5
                 particles.mainEmitter.color = .evolving(
-                    start: .single(UIColor(red: 1.0, green: 0.85, blue: 0.6, alpha: 0.9)),
+                    start: .single(UIColor(red: 1.0, green: 0.85, blue: 0.6, alpha: 0.8)),
                     end: .single(UIColor(red: 0.6, green: 0.8, blue: 1.0, alpha: 0.0))
                 )
-                particles.speed = 0.015
+                particles.speed = 0.012
                 particleEntity.components.set(particles)
                 rootEntity.addChild(particleEntity)
 
@@ -181,7 +186,7 @@ struct GlowingOrb3DView: View {
                 let lightEntity = Entity()
                 var pointLight = PointLightComponent()
                 pointLight.color = UIColor(red: 1.0, green: 0.65, blue: 0.45, alpha: 1.0)
-                pointLight.intensity = 2200
+                pointLight.intensity = 1600
                 pointLight.attenuationRadius = 1.5
                 lightEntity.components.set(pointLight)
                 rootEntity.addChild(lightEntity)
@@ -203,10 +208,13 @@ struct GlowingOrb3DView: View {
         let size = CGSize(width: 256, height: 256)
         let renderer = UIGraphicsImageRenderer(size: size)
         let image = renderer.image { context in
+            // Higher saturation/contrast than before — the gradient is now
+            // the orb's whole visual identity (no big glow doing the work
+            // anymore), so it needs to pop rather than read as pastel.
             let colors = [
-                UIColor(red: 1.0, green: 0.64, blue: 0.36, alpha: 1.0).cgColor,
-                UIColor(red: 0.93, green: 0.46, blue: 0.56, alpha: 1.0).cgColor,
-                UIColor(red: 0.52, green: 0.44, blue: 0.86, alpha: 1.0).cgColor
+                UIColor(red: 1.0, green: 0.50, blue: 0.10, alpha: 1.0).cgColor,
+                UIColor(red: 0.95, green: 0.16, blue: 0.42, alpha: 1.0).cgColor,
+                UIColor(red: 0.30, green: 0.16, blue: 0.88, alpha: 1.0).cgColor
             ]
             guard let gradient = CGGradient(
                 colorsSpace: CGColorSpaceCreateDeviceRGB(),

@@ -13,7 +13,7 @@ struct HomeOverlay: View {
         ZStack {
             VStack(spacing: 0) {
                 GreetingHeader(name: "Paul")
-                    .padding(.top, 56)
+                    .padding(.top, 100)
 
                 // Reserved for the live orb (RealityView-based, in progress
                 // on another branch) — intentionally left empty for now.
@@ -23,22 +23,22 @@ struct HomeOverlay: View {
                     .padding(.bottom, 48)
             }
 
-            HStack(alignment: .top, spacing: 0) {
+            // Centered (not top-aligned) so the library and the Begin button
+            // both fall on the same horizontal line as the orb.
+            HStack(alignment: .center, spacing: 0) {
                 MemoryLibraryPanel(
                     memories: memories,
                     selectedMemory: $selectedMemory,
                     isExpanded: $isLibraryExpanded
                 )
-                // Same indent as SelectedMemoryCard's trailing padding below,
+                // Same indent as StartSessionButton's trailing padding below,
                 // so both panels sit equidistant from screen center.
                 .padding(.leading, 214)
-                .padding(.top, 40)
 
                 Spacer(minLength: 0)
 
-                SelectedMemoryCard(memory: selectedMemory)
+                StartSessionButton(memory: selectedMemory)
                     .padding(.trailing, 214)
-                    .padding(.top, 40)
             }
         }
     }
