@@ -80,6 +80,19 @@ struct MemoryImmersiveView: View {
                 EmptyView()
             }
 
+            // Instrumentation while the depth mesh is being diagnosed. Reports
+            // the MEAN COLOUR of the textures the room is painted with, because
+            // "the room is dark" and "the textures are black" are different
+            // faults needing opposite fixes, and from inside a headset they
+            // look identical.
+            if let diagnostics = session.diagnostics {
+                Text(diagnostics)
+                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                    .foregroundStyle(.white.opacity(0.75))
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 640)
+            }
+
             HStack(spacing: 14) {
                 // The way out, and it is ALWAYS here — during the loading,
                 // after it, and when it failed.
@@ -98,11 +111,18 @@ struct MemoryImmersiveView: View {
                 }
                 .buttonBorderShape(.capsule)
 
-                // The renderer A/B toggle lived here. Taken out for submission:
-                // one of its two positions currently renders dark, and a
-                // control that can break the demo is worse than no control.
-                // `MemorySession.useDepthMeshPipeline` still exists — put the
-                // toggle back once the depth mesh is fixed.
+                // Back to the renderer that works, in one tap. Rebuilds the
+                // scene, so it costs a reload each way.
+                Toggle(isOn: Binding(
+                    get: { session.useDepthMeshPipeline },
+                    set: { session.useDepthMeshPipeline = $0 }
+                )) {
+                    Text(session.useDepthMeshPipeline ? "Step inside" : "Apple's spatial photo")
+                        .font(.system(size: 15, weight: .medium))
+                        .frame(width: 175)
+                }
+                .toggleStyle(.button)
+                .buttonBorderShape(.capsule)
             }
         }
         .padding(28)

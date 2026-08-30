@@ -96,15 +96,12 @@ final class MemorySession {
         self.model = engine.makeScene()
         self.hasFiller = token != nil
 
-        // Apple's spatial scene, which is the path that actually works on
-        // device today.
+        // The depth-mesh pipeline: the one you can step inside and look around,
+        // rather than a picture with parallax hanging in front of you.
         //
-        // The depth-mesh pipeline is the one you can step inside, and it is
-        // where this should end up — but its reconstruction currently renders
-        // dark on device and the cause is not yet found. Shipping the renderer
-        // that works beats shipping the more ambitious one that does not.
-        // Flip this to `false` to pick the depth mesh back up.
-        self.model.prefersAppleSpatialScene = true
+        // Still under diagnosis on device — the toggle in the immersive view
+        // switches back to Apple's renderer, which is known to work.
+        self.model.prefersAppleSpatialScene = false
 
         // Eye height, because the container's geometry is written from the head
         // and a full immersive space measures from the floor.

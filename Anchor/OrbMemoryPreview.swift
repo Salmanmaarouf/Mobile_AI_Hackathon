@@ -10,7 +10,7 @@ struct OrbMemoryPreview: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: memory.gradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+            MemoryThumbnail(memory: memory)
 
             LinearGradient(
                 colors: [.clear, .black.opacity(0.55)],

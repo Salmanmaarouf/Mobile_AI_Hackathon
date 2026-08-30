@@ -165,7 +165,7 @@ private struct MemoryRow: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            LinearGradient(colors: memory.gradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+            MemoryThumbnail(memory: memory)
 
             // Shadow gradient so the caption stays legible over any thumbnail.
             LinearGradient(
